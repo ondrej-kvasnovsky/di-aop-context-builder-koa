@@ -1,0 +1,35 @@
+{
+  "name": "confi-di-koa",
+  "version": "0.0.1",
+  "main": "app.js",
+  "scripts": {
+    "start": "node server.js --watch",
+    "test": "nyc --reporter=html --reporter=text mocha --recursive"
+  },
+  "dependencies": {
+    "koa": "^2.3.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-route": "^3.2.0",
+    "mongodb": "^2.2.31",
+    "mz": "^2.7.0",
+    "path": "^0.12.7",
+    "url-parse": "~1.1.9",
+    "validator": "~8.1.0"
+  },
+  "devDependencies": {
+    "dirty-chai": "^2.0.1",
+    "eslint": "^3.19.0",
+    "eslint-config-standard": "^10.2.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-node": "^4.2.2",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "install": "^0.10.1",
+    "leche": "~2.2.1",
+    "mocha": "^3.5.3",
+    "mock-require": "^2.0.2",
+    "npm": "^5.4.2",
+    "nyc": "~11.1.0",
+    "proxyquire": "^1.8.0"
+  }
+}
