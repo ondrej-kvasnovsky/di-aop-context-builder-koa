@@ -1,21 +1,52 @@
 const Koa = require('koa')
-const KoaRoute = require('koa-route')
+const Router = require('koa-router')
+var router = new Router();
 
 class App {
-  constructor(userController) {
+  constructor (userController) {
     this.userController = userController
-    this.app = new Koa()
-    this.app.use(require('koa-bodyparser')())
     this.routing()
+    this.app = new Koa()
+      .use(require('koa-bodyparser')())
+    this.app
+      .use(router.routes())
+      .use(router.allowedMethods());
   }
 
-  routing() {
-    this.app.use(KoaRoute.get('/users/:id', function(ctx, id) {
-      ctx.body = this.userController.show(ctx, id)
-    }))
+  routing () {
+    const validateCollection = async (ctx, next) => {
+      // const { collection } = ctx.params;
+      // if (!(collection in ctx.state.collections)) {
+      //   return ctx.throw(404);
+      // }
+      await next()
+    }
+
+    const validateKey = async (ctx, next) => {
+      // const { authorization } = ctx.request.headers;
+      // if (authorization !== ctx.state.authorizationHeader) {
+      //   return ctx.throw(401);
+      // }
+      await next()
+    }
+
+    router.post('/items/:id',
+      // First, validate auth key
+      validateKey,
+      // Then, validate that the provided collection exists
+      validateCollection,
+      // Handle adding the new item to the collection
+      async (ctx, next) => {
+        // Use ES6 destructuring to extract the collection param
+        const {collection} = ctx.params
+        console.log(collection)
+        ctx.body = await this.userController.show(ctx, ctx.params.id)
+      }
+    )
+
   }
 
-  listen(port, callback) {
+  listen (port, callback) {
     this.app.listen(port, callback)
   }
 }

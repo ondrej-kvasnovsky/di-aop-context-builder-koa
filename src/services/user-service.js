@@ -1,21 +1,32 @@
-// const mongoose = require('mongoose');
-// mongoose.connect('mongodb://localhost/condi');
-const MongoClient = require('mongodb').MongoClient;
-const url = 'mongodb://localhost:27017/condi';
+const mongoose = require('mongoose')
+mongoose.Promise = global.Promise
+mongoose.connect('mongodb://localhost:27017/condi')
+const User = mongoose.model('users', {name: String})
 
 module.exports = class UserService {
-  async findById(id) {
+  async findById (id) {
     try {
-      const db = await MongoClient.connect(url);
-      const items = db.collection('items');
-      await items.insertOne({hello: 'world_no_safe'});
-      console.log('db aquired');
-      let item = await items.findOne({hello: 'world_no_safe'})
-      console.log(item);
-      return item;
-      // return {id}
+      const user = new User({name: 'Zildjian'})
+      let save = user.save()
+      console.log(save)
+      const x = await save
+      console.log(x)
+      return x
     } catch (e) {
-      console.log(e);
+      console.log(e)
+    }
+  }
+
+  async save (name) {
+    try {
+      const user = new User({name: 'Zildjian'})
+      let save = user.save()
+      console.log(save)
+      const x = await save
+      console.log(x)
+      return x
+    } catch (e) {
+      console.log(e)
     }
   }
 }
