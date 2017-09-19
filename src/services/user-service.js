@@ -1,30 +1,23 @@
 const mongoose = require('mongoose')
 mongoose.Promise = global.Promise
 mongoose.connect('mongodb://localhost:27017/condi')
-const User = mongoose.model('users', {name: String})
+const User = mongoose.model('users', {login: String})
 
 module.exports = class UserService {
-  async findById (id) {
+  async findById (login) {
     try {
-      const user = new User({name: 'Zildjian'})
-      let save = user.save()
-      console.log(save)
-      const x = await save
-      console.log(x)
-      return x
+      const save = User.findOne({login})
+      return save
     } catch (e) {
       console.log(e)
     }
   }
 
-  async save (name) {
+  async save (login) {
     try {
-      const user = new User({name: 'Zildjian'})
+      const user = new User({login: login})
       let save = user.save()
-      console.log(save)
-      const x = await save
-      console.log(x)
-      return x
+      return await save
     } catch (e) {
       console.log(e)
     }

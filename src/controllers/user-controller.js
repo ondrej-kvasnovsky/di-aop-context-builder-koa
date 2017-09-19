@@ -3,8 +3,12 @@ class UserController {
     this.userService = userService
   }
 
-  async show(ctx, id) {
-    return this.userService.findById(id)
+  async show(ctx, login) {
+    return this.userService.findById(login)
+  }
+
+  async insert(ctx, login) {
+    return this.userService.save(login)
   }
 }
 

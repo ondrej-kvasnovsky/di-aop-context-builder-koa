@@ -1,28 +1,43 @@
 const ConfiDI = require('confi-di')
 
+const componentScan = [
+  {
+    'dir': 'src',
+    'include': '**/*.js'
+  }
+]
+
 const handlers = [
   {
-    'classPatterns': ['.*Service'],
-    'methodPatterns': ['find.*'],
+    'components': ['.*Service'],
+    'methods': ['.*'],
     'handler': {
-      apply: async function(target, thisArg, args) {
+      apply: async function (target, thisArg, args) {
         console.log('proxy called')
-        return target.apply(thisArg, args)
+        const start = new Date()
+
+        // call a method on service
+        const result = await target.apply(thisArg, args)
+
+        const diff = new Date() - start
+        console.log(`Time: ${diff}`) // report time it took to execute
+        return result
       }
     }
   },
   {
-    'classPatterns': ['.*Controller'],
-    'methodPatterns': ['show'],
+    'components': ['.*Controller'],
+    'methods': ['show'],
     'handler': {
-      apply: function(target, thisArg, args) {
+      apply: function (target, thisArg, args) {
         console.log('controller proxy called')
         return target.apply(thisArg, args)
       }
     }
   }
 ]
-const confiDi = new ConfiDI('context-config.json', handlers)
+
+const confiDi = new ConfiDI(componentScan, handlers)
 
 confiDi.getContext().getComponent('app').listen(3000, function () {
   const host = 'localhost'

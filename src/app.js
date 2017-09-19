@@ -8,7 +8,6 @@ class App {
     this.routing()
     this.app = new Koa()
       .use(require('koa-bodyparser')())
-    this.app
       .use(router.routes())
       .use(router.allowedMethods());
   }
@@ -30,7 +29,7 @@ class App {
       await next()
     }
 
-    router.post('/items/:id',
+    router.post('/items/:login',
       // First, validate auth key
       validateKey,
       // Then, validate that the provided collection exists
@@ -40,10 +39,23 @@ class App {
         // Use ES6 destructuring to extract the collection param
         const {collection} = ctx.params
         console.log(collection)
-        ctx.body = await this.userController.show(ctx, ctx.params.id)
+        ctx.body = await this.userController.insert(ctx, ctx.params.login)
       }
     )
 
+    router.get('/items/:login',
+      // First, validate auth key
+      validateKey,
+      // Then, validate that the provided collection exists
+      validateCollection,
+      // Handle adding the new item to the collection
+      async (ctx, next) => {
+        // Use ES6 destructuring to extract the collection param
+        const {collection} = ctx.params
+        console.log(collection)
+        ctx.body = await this.userController.show(ctx, ctx.params.login)
+      }
+    )
   }
 
   listen (port, callback) {
