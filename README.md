@@ -2,6 +2,8 @@
 
 Example how DI AOP Context build can be used with Koa to create REST API.
 
+More about the context builder is written [here](https://ondrej-kvasnovsky.gitbooks.io/nodejs-handbook/content/chapter1/dependency-injection-and-aop.html).
+
 ## Requirements
 
 * npm
