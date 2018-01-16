@@ -1,4 +1,4 @@
-const ConfiDI = require('confi-di')
+const ContextBuilder = require('di-aop-context-builder')
 
 const componentScan = [
   {
@@ -7,7 +7,7 @@ const componentScan = [
   }
 ]
 
-const handlers = [
+const pointcuts = [
   {
     'components': ['.*Service'],
     'methods': ['.*'],
@@ -29,17 +29,22 @@ const handlers = [
     'components': ['.*Controller'],
     'methods': ['show'],
     'handler': {
-      apply: function (target, thisArg, args) {
-        console.log('controller proxy called')
-        return target.apply(thisArg, args)
+      apply: async function (target, thisArg, args) {
+        const start = new Date()
+
+        const result = await target.apply(thisArg, args)
+
+        const diff = new Date() - start
+        console.log(`Time: ${diff}`) // report time it took to execute
+        return result
       }
     }
   }
 ]
 
-const confiDi = new ConfiDI(componentScan, handlers)
+const contextBuilder = new ContextBuilder(componentScan, pointcuts)
 
-confiDi.getContext().getComponent('app').listen(3000, function () {
+contextBuilder.getContext().getComponent('app').listen(3000, function () {
   const host = 'localhost'
   const port = '3000'
 

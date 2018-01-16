@@ -1,5 +1,5 @@
 {
-  "name": "confi-di-koa",
+  "name": "di-aop-context-builder-koa",
   "version": "0.0.1",
   "main": "app.js",
   "scripts": {
@@ -8,6 +8,7 @@
     "test": "nyc --reporter=html --reporter=text mocha --recursive"
   },
   "dependencies": {
+    "di-aop-context-builder": "0.0.1",
     "koa": "^2.3.0",
     "koa-bodyparser": "^4.2.0",
     "koa-router": "^7.2.1",
