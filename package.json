@@ -13,7 +13,7 @@
     "koa-bodyparser": "^4.2.0",
     "koa-router": "^7.2.1",
     "mongodb": "^2.2.31",
-    "mongoose": "^4.11.11",
+    "mongoose": "^5.8.0",
     "mz": "^2.7.0",
     "path": "^0.12.7",
     "url-parse": "~1.1.9",
